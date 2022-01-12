@@ -3,4 +3,7 @@
     <string name="rt_title">WHEATHER</string>
     <string name="rt_label">Room Temperature</string>
     <string name="rt_temp">0</string>
+    <string name="et_title">WHEATHER</string>
+    <string name="et_label">Temperature</string>
+    <string name="et_temp">0</string>
 </resources>
