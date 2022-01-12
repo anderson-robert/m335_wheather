@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wheather">
         <activity
+            android:name=".ExternalTemperatureActivity"
+            android:exported="false" />
+        <activity
             android:name=".RoomTemperatureActivity"
             android:exported="true">
             <intent-filter>
