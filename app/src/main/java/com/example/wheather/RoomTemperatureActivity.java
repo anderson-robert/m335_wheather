@@ -1,15 +1,20 @@
 package com.example.wheather;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 public class RoomTemperatureActivity extends AppCompatActivity implements SensorEventListener {
 
+    private ConstraintLayout constraintLayout;
     private EditText temperatureField;
     private SensorManager sensorManager;
     private Sensor ambientTemperature;
@@ -26,6 +31,19 @@ public class RoomTemperatureActivity extends AppCompatActivity implements Sensor
         if (ambientTemperature == null) {
             temperatureField.setText(NOT_SUPPORTED_MESSAGE);
         }
+        //Listener for swipe gestures
+        constraintLayout = (ConstraintLayout) findViewById(R.id.rt_constraint);
+        constraintLayout.setOnTouchListener(new OnSwipeTouchListener(this){
+            public void onSwipeLeft() {
+                switchActivity();
+            }
+        });
+    }
+
+    //Method to start a new Activity
+    public void switchActivity() {
+        Intent intent = new Intent(this, ExternalTemperatureActivity.class);
+        startActivity(intent);
     }
 
     @Override
