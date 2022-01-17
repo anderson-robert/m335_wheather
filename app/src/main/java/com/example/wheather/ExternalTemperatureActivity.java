@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
@@ -39,7 +40,7 @@ import java.util.concurrent.Executors;
 
 public class ExternalTemperatureActivity extends AppCompatActivity {
 
-    private static final String OpenWeatherAPIURL = "api.openweathermap.org/data/2.5/weather?q=Zurich&units=metric&appid=337567a0234864c15055bd00c1fd627e";
+    private static final String OpenWeatherAPIURL = "http://api.openweathermap.org/data/2.5/weather?q=Zurich&units=metric&appid=337567a0234864c15055bd00c1fd627e";
     private static final String OpenWeatherAPITempTerm = "temp";
     private TextView temperatureField;
     private ConstraintLayout constraintLayout;
@@ -69,19 +70,34 @@ public class ExternalTemperatureActivity extends AppCompatActivity {
     }
 
     private void getTemperatureFromAPI() throws IOException {
-        String returnedTemp = "";
-        URL url = new URL(OpenWeatherAPIURL);
-        InputStreamReader reader = new InputStreamReader(url.openStream());
-        OpenWeatherJson opj = new Gson().fromJson(reader, OpenWeatherJson.class);
 
-        returnedTemp = opj.main.get("temp");
-        returnedTemp = "7";
-        temperatureField.setText("7");
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, OpenWeatherAPIURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        float returnedTemp;
+                        OpenWeatherJson opj = new Gson().fromJson(response, OpenWeatherJson.class);
+                        returnedTemp = opj.main.temp;
+                        temperatureField.setText(String.valueOf(returnedTemp) + "°C");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(stringRequest);
+
+
+
+
     }
 
     private class OpenWeatherJson {
         Map<String, Float> coord;
-        Map<String, String> main;
+        public OpenWeatherJson_Temp main;
         Map<String, String> wind;
         String base;
         String visibility;
@@ -93,4 +109,9 @@ public class ExternalTemperatureActivity extends AppCompatActivity {
         String name;
         Integer cod;
     }
+
+    private class OpenWeatherJson_Temp {
+        public Float temp;
+    }
+
 }
