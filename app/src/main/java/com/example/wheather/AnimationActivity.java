@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 
-import java.util.concurrent.TimeUnit;
 
 public class AnimationActivity extends AppCompatActivity {
 
