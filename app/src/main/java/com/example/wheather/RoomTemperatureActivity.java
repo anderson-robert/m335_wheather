@@ -42,7 +42,7 @@ public class RoomTemperatureActivity extends AppCompatActivity implements Sensor
 
     //Method to start a new Activity
     public void switchActivity() {
-        Intent intent = new Intent(this, ExternalTemperatureActivity.class);
+        Intent intent = new Intent(this, AnimationActivity.class);
         startActivity(intent);
     }
 
